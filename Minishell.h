@@ -3,25 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   Minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/11 14:20:33 by seb              ###   ########.fr       */
+/*   Updated: 2025/03/12 19:25:15 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef Minishell_H
-# define PIPEX_H
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 1
 
 # endif
 
-# include <fcntl.h>
+# include <dirent.h>
+# include <readline/history.h>
+# include <readline/readline.h>
+# include <signal.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
+# include <sys/ioctl.h>
+# include <sys/stat.h>
+# include <sys/types.h>
 # include <sys/wait.h>
+# include <termios.h>
 # include <unistd.h>
 
 typedef struct s_args
@@ -33,11 +41,12 @@ typedef struct s_args
 
 typedef struct s_here_doc
 {
-	char	**cmd1;
-	char	**cmd2;
-	char	*limiter;
-	char	*file;
-	int		state;
+	char	**cmd;
+	char	**limiter;
+	char	*name_in;
+	char	*name_out;
+	int		fd_in;
+	int		fd_out;
 }			t_here_doc;
 
 typedef struct s_pipe
@@ -47,7 +56,10 @@ typedef struct s_pipe
 }			t_pipe;
 
 // Minishell_built_in.c
-int main(int argc, char **argv, char **envp);
+int			ft_pwd(void);
+int			ft_cd(char **path, char **envp);
+int			ft_echo(char **args, int newline);
+void		here_doc_line(t_pipe pipe_fd, char **envp);
 ///////////////////////////////////////////////////////////////////////////////
 
 // mini_libft.c
@@ -58,16 +70,36 @@ char		*ft_strdup(const char *s);
 char		*ft_strjoin(char const *s1, char const *s2);
 ///////////////////////////////////////////////////////////////////////////////
 
-//get_next_line
-char	*get_lines(char *buffer, char *init_line);
-void	next_line(char *buffer);
-char	*get_next_line(int fd);
-void	*ft_calloc(size_t nmemb, size_t size);
-void	*ft_bzero(void *s, size_t n);
+// get_next_line
+char		*get_lines(char *buffer, char *init_line);
+void		next_line(char *buffer);
+char		*get_next_line(int fd);
+void		*ft_calloc(size_t nmemb, size_t size);
+void		*ft_bzero(void *s, size_t n);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_split.c
 char		**ft_split(char const *s, char c);
 char		**ft_split1(char const *s, char c);
 ////////////////////////////////////////////////////////
+
+// main.c
+int			main(int argc, char **argv, char **envp);
+///////////////////////////////////////////////////////////////////////////////
+
+// tablen.c
+int			ft_tablen(char **tab);
+///////////////////////////////////////////////////////////////////////////////
+
+// clear.c
+void		free_tab(char **tab);
+///////////////////////////////////////////////////////////////////////////////
+
+// built_in_utils.c
+void		change_pwd(char **env);
+void		change_old_pwd(char **env);
+char		*get_home(char **env);
+
+///////////////////////////////////////////////////////////////////////////////
+
 #endif

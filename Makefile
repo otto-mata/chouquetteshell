@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: seb <seb@student.42.fr>                    +#+  +:+       +#+         #
+#    By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/02/26 10:14:48 by sle-nogu          #+#    #+#              #
-#    Updated: 2025/03/11 14:20:15 by seb              ###   ########.fr        #
+#    Updated: 2025/03/12 17:32:13 by sle-nogu         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,18 +16,22 @@ CFLAGS=-Wall -Werror -Wextra
 
 OBJS=$(SRC:.c=.o)
 
-SRC=	Minishell_built_in.c \
+SRC=	main.c \
 		mini_libft.c \
 		get_next_line.c \
 		get_next_line_utils.c \
-		ft_split.c
+		ft_split.c \
+		built_in1.c \
+		tablen.c \
+		clear.c \
+		built_in_utils.c
 
 # Compilation rules
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) -lreadline $(OBJS) -o $(NAME)
 
 clean:
 	rm -f $(OBJS)

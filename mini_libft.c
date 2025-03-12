@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_libft.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: seb <seb@student.42.fr>                    +#+  +:+       +#+        */
+/*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:57:31 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/10 15:03:16 by seb              ###   ########.fr       */
+/*   Updated: 2025/03/12 17:48:31 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	i = 0;
 	len = ft_strlen(s1) + ft_strlen(s2);
-	str = malloc(sizeof (char) * (len + 2));
+	str = malloc(sizeof (char) * (len + 1));
 	if (!str)
 		return (0);
 	while (s1[i])
@@ -69,11 +69,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		str[i] = s1[i];
 		i++;
 	}
-	str[i] = ' ';
-	i++;
-	while (s2[i - ft_strlen(s1) - 1])
+	while (s2[i - ft_strlen(s1)])
 	{
-		str[i] = s2[i - ft_strlen(s1) - 1];
+		str[i] = s2[i - ft_strlen(s1)];
 		i++;
 	}
 	str[i] = 0;

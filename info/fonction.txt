@@ -1,3 +1,6 @@
+ligne pour valgrind :
+valgrind --leak-check=full --trace-children=yes --track-fds=yes --suppressions=ignore_leak_readline.supp ./Minishell
+
 Fonction autorisées :
 
 readline
@@ -11,3 +14,9 @@ dup | dup2 | pipe | opendir | readdir | closedir |
 strerror | perror | isatty | ttyname | ttyslot | ioctl |
 getenv | tcsetattr | tcgetattr | tgetent | tgetflag |
 tgetnum | tgetstr | tgoto | tputs
+
+
+pour cd : 
+si !path chercher le home 
+si plusieur argument, "too many args"
+si 1er argument look "-dwadads", dire que pas d option 
