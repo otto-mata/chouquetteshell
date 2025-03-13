@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/12 19:25:15 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/13 15:22:54 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,17 @@ typedef struct s_args
 	char	**executable;
 }			t_args;
 
-typedef struct s_here_doc
+typedef struct s_cmd
 {
-	char	**cmd;
-	char	**limiter;
-	char	*name_in;
-	char	*name_out;
-	int		fd_in;
-	int		fd_out;
-}			t_here_doc;
+	char			**cmd;
+	char			**limiter;
+	char			*name_in;
+	char			*name_out;
+	int				fd_in;
+	int				fd_out;
+	int				append;
+	struct s_cmd	*next;
+}			t_cmd;
 
 typedef struct s_pipe
 {
@@ -56,10 +58,10 @@ typedef struct s_pipe
 }			t_pipe;
 
 // Minishell_built_in.c
-int			ft_pwd(void);
+int			ft_pwd(char **env);
 int			ft_cd(char **path, char **envp);
-int			ft_echo(char **args, int newline);
-void		here_doc_line(t_pipe pipe_fd, char **envp);
+int			ft_echo(t_cmd cmd);
+void		here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **envp);
 ///////////////////////////////////////////////////////////////////////////////
 
 // mini_libft.c
@@ -99,7 +101,8 @@ void		free_tab(char **tab);
 void		change_pwd(char **env);
 void		change_old_pwd(char **env);
 char		*get_home(char **env);
-
+int			check_flags(t_cmd cmd);
+char		*ft_getenv(char *value_name, char **env);
 ///////////////////////////////////////////////////////////////////////////////
 
 #endif

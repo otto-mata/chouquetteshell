@@ -15,8 +15,20 @@ strerror | perror | isatty | ttyname | ttyslot | ioctl |
 getenv | tcsetattr | tcgetattr | tgetent | tgetflag |
 tgetnum | tgetstr | tgoto | tputs
 
+git 
 
-pour cd : 
-si !path chercher le home 
-si plusieur argument, "too many args"
-si 1er argument look "-dwadads", dire que pas d option 
+
+builtins:
+
+ - exit:
+   - retourner le bon code pour 'exit <N>'
+   - exit <n> <...> ne doit pas quitter mais dire "too many arguments"
+   - exit <str> <str> doit quitter, indiquer "<str>: numeric argument only" et renvoyer 2
+   - exit <str> <...> <n> doit quitter, indiquer "<str>: numeric argument only" et renvoyer 2
+   - Attention a long min et long max qui sont les limites
+   - exit quitte le shell en cours: donc, dans un pipe, il quitte le sub shell
+
+ - echo:
+   - echo sans option ajoute un retour a la ligne, -n ne l'ajoute pas
+
+ - pwd et cd: utiliser la variable "PWD"

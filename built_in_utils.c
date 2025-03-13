@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:28:59 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/12 19:24:50 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/13 16:08:57 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ void	change_pwd(char **env)
 			break ;
 		i++;
 	}
-	cwd = getcwd(NULL, 0);
+	cwd = ft_getenv("PWD=", env);
 	if (!cwd)
-		return (perror("getcwd"));
+		return (perror("ft_getenv"));
 	new_pwd = ft_strjoin("PWD=", cwd);
-	free(cwd);
 	if (!new_pwd)
 		return (perror("ft_strjoin"));
 	free(env[i]);
@@ -49,11 +48,10 @@ void	change_old_pwd(char **env)
 			break ;
 		i++;
 	}
-	cwd = getcwd(NULL, 0);
+	cwd = ft_getenv("PWD=", env);
 	if (!cwd)
-		return (perror("getcwd"));
+		return (perror("ft_getenv"));
 	old_pwd = ft_strjoin("OLDPWD=", cwd);
-	free(cwd);
 	if (!old_pwd)
 		return (perror("ft_strjoin"));
 	free(env[i]);
@@ -72,4 +70,42 @@ char	*get_home(char **env)
 		i++;
 	}
 	return (env[i] + 5);
+}
+
+int	check_flags(t_cmd cmd)
+{
+	int	i;
+	int	j;
+
+	i = 1;
+	j = 1;
+	while (cmd.cmd[i][0] == '-' && cmd.cmd[i][j] == 'n')
+	{
+		if (cmd.cmd[i][j] != 'n')
+			break ;
+		j++;
+		if (!cmd.cmd[i][j])
+		{
+			i++;
+			j = 1;
+		}
+	}
+	return (i);
+}
+
+char *ft_getenv(char *value_name, char **env)
+{
+	int		i;
+	char	*value_env;
+	const int size_value_name = ft_strlen(value_name);
+
+	i = 0;
+	while (env[i])
+	{
+		if (strncmp(value_name, env[i], size_value_name) == 0)
+			break ;
+		i++;
+	}
+	value_env = ft_strdup(env[i] + size_value_name);
+	return (value_env);
 }
