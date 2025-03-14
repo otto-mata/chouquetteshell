@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/03/14 13:05:54 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:33:03 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ int	ft_cd(char **cmd, char **env)
 	if (size_tab == 1)
 	{
 		path = ft_strdup(get_home(env));
-		return (write(1, "HOME not set\n", 13), free(path), 0);
+		if(!path)
+			return (write(1, "HOME not set\n", 13), free(path), 0);
 	}
 	else if (size_tab > 2)
 		return (perror("too many arguments"), 0);
@@ -74,18 +75,15 @@ int	ft_echo(t_cmd cmd)
 	return (1);
 }
 
-static long	choice_of_builtin(t_cmd cmd, char **env)
+static void	choice_of_builtin(t_cmd cmd, char **env)
 {
-	if (ft_strncmp(cmd.cmd[0], "exit", 5) == 0)
-		return (0);
-	else if (ft_strncmp(cmd.cmd[0], "cd", 3) == 0 || ft_strncmp(cmd.cmd[0],
+	if (ft_strncmp(cmd.cmd[0], "cd", 3) == 0 || ft_strncmp(cmd.cmd[0],
 			"cd", 3) == 32)
 		ft_cd(cmd.cmd, env);
 	else if (ft_strncmp(cmd.cmd[0], "pwd", 4) == 0)
 		ft_pwd(env);
 	else if (ft_strncmp(cmd.cmd[0], "echo", 5) == 0)
 		ft_echo(cmd);
-	return (1);
 }
 
 int	here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **env)
@@ -106,7 +104,10 @@ int	here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **env)
 			if (!cmd.cmd)
 				return (0);
 			free(line);
-			result = choice_of_builtin(cmd, env);
+			if (ft_strncmp(cmd.cmd[0], "exit", 5) == 0)
+				ft_exit(cmd.cmd);
+			else
+				choice_of_builtin(cmd, env);
 			free_tab(cmd.cmd);
 		}
 	}

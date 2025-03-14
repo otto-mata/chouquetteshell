@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/14 13:06:29 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:12:08 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,5 +72,5 @@ int	main(int argc, char **argv, char **envp)
 	free_tab(env);
 	close(pipe_fd.old[0]);
 	close(pipe_fd.old[1]);
-	return (0);
+	return (result);
 }
