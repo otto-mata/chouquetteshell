@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   built_in_utils.c                                   :+:      :+:    :+:   */
+/*   built_in_utils1.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 17:28:59 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/13 16:08:57 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:05:47 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-void	change_pwd(char **env)
+void	change_pwd(char **env, char *path)
 {
-	char	*cwd;
 	char	*new_pwd;
 	int		i;
 
@@ -25,13 +24,13 @@ void	change_pwd(char **env)
 			break ;
 		i++;
 	}
-	cwd = ft_getenv("PWD=", env);
-	if (!cwd)
-		return (perror("ft_getenv"));
-	new_pwd = ft_strjoin("PWD=", cwd);
+	if (path[0] != '/')
+		path = create_new_path(env, path);
+	new_pwd = ft_strjoin("PWD=", path);
 	if (!new_pwd)
 		return (perror("ft_strjoin"));
 	free(env[i]);
+	free(path);
 	env[i] = new_pwd;
 }
 
@@ -55,6 +54,7 @@ void	change_old_pwd(char **env)
 	if (!old_pwd)
 		return (perror("ft_strjoin"));
 	free(env[i]);
+	free(cwd);
 	env[i] = old_pwd;
 }
 
@@ -69,6 +69,8 @@ char	*get_home(char **env)
 			break ;
 		i++;
 	}
+	if (!env[i])
+		return (0);
 	return (env[i] + 5);
 }
 
@@ -79,6 +81,8 @@ int	check_flags(t_cmd cmd)
 
 	i = 1;
 	j = 1;
+	if (!cmd.cmd[1])
+		return (1);
 	while (cmd.cmd[i][0] == '-' && cmd.cmd[i][j] == 'n')
 	{
 		if (cmd.cmd[i][j] != 'n')
@@ -93,11 +97,11 @@ int	check_flags(t_cmd cmd)
 	return (i);
 }
 
-char *ft_getenv(char *value_name, char **env)
+char	*ft_getenv(char *value_name, char **env)
 {
-	int		i;
-	char	*value_env;
-	const int size_value_name = ft_strlen(value_name);
+	int			i;
+	char		*value_env;
+	const int	size_value_name = ft_strlen(value_name);
 
 	i = 0;
 	while (env[i])

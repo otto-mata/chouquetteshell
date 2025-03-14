@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/13 15:22:54 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:06:46 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,10 @@
 
 typedef struct s_args
 {
-	char	*file;
-	char	*full_path;
-	char	**executable;
-}			t_args;
+	char			*file;
+	char			*full_path;
+	char			**executable;
+}					t_args;
 
 typedef struct s_cmd
 {
@@ -49,60 +49,68 @@ typedef struct s_cmd
 	int				fd_out;
 	int				append;
 	struct s_cmd	*next;
-}			t_cmd;
+}					t_cmd;
 
 typedef struct s_pipe
 {
-	int		old[2];
-	int		new[2];
-}			t_pipe;
+	int				old[2];
+	int				new[2];
+}					t_pipe;
 
-// Minishell_built_in.c
-int			ft_pwd(char **env);
-int			ft_cd(char **path, char **envp);
-int			ft_echo(t_cmd cmd);
-void		here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **envp);
+// built_in1.c
+int					ft_pwd(char **env);
+int					ft_cd(char **path, char **envp);
+int					ft_echo(t_cmd cmd);
+int					here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **envp);
+///////////////////////////////////////////////////////////////////////////////
+
+// built_in2.c
+long				ft_exit(t_cmd cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // mini_libft.c
-int			ft_strlen(const char *str);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-int			ft_strlcpy(char *dst, const char *src, int size);
-char		*ft_strdup(const char *s);
-char		*ft_strjoin(char const *s1, char const *s2);
+int					ft_strlen(const char *str);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_strlcpy(char *dst, const char *src, int size);
+char				*ft_strdup(const char *s);
+char				*ft_strjoin(char const *s1, char const *s2);
 ///////////////////////////////////////////////////////////////////////////////
 
 // get_next_line
-char		*get_lines(char *buffer, char *init_line);
-void		next_line(char *buffer);
-char		*get_next_line(int fd);
-void		*ft_calloc(size_t nmemb, size_t size);
-void		*ft_bzero(void *s, size_t n);
+char				*get_lines(char *buffer, char *init_line);
+void				next_line(char *buffer);
+char				*get_next_line(int fd);
+void				*ft_calloc(size_t nmemb, size_t size);
+void				*ft_bzero(void *s, size_t n);
 ///////////////////////////////////////////////////////////////////////////////
 
 // ft_split.c
-char		**ft_split(char const *s, char c);
-char		**ft_split1(char const *s, char c);
+char				**ft_split(char const *s, char c);
+char				**ft_split1(char const *s, char c);
 ////////////////////////////////////////////////////////
 
 // main.c
-int			main(int argc, char **argv, char **envp);
+int					main(int argc, char **argv, char **envp);
 ///////////////////////////////////////////////////////////////////////////////
 
 // tablen.c
-int			ft_tablen(char **tab);
+int					ft_tablen(char **tab);
 ///////////////////////////////////////////////////////////////////////////////
 
 // clear.c
-void		free_tab(char **tab);
+void				free_tab(char **tab);
 ///////////////////////////////////////////////////////////////////////////////
 
-// built_in_utils.c
-void		change_pwd(char **env);
-void		change_old_pwd(char **env);
-char		*get_home(char **env);
-int			check_flags(t_cmd cmd);
-char		*ft_getenv(char *value_name, char **env);
+// built_in_utils1.c
+void				change_pwd(char **env, char *path);
+void				change_old_pwd(char **env);
+char				*get_home(char **env);
+int					check_flags(t_cmd cmd);
+char				*ft_getenv(char *value_name, char **env);
+///////////////////////////////////////////////////////////////////////////////
+
+// built_in_utils1.c
+char				*create_new_path(char **env, char *path);
 ///////////////////////////////////////////////////////////////////////////////
 
 #endif

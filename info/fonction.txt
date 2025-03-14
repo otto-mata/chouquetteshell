@@ -27,8 +27,3 @@ builtins:
    - exit <str> <...> <n> doit quitter, indiquer "<str>: numeric argument only" et renvoyer 2
    - Attention a long min et long max qui sont les limites
    - exit quitte le shell en cours: donc, dans un pipe, il quitte le sub shell
-
- - echo:
-   - echo sans option ajoute un retour a la ligne, -n ne l'ajoute pas
-
- - pwd et cd: utiliser la variable "PWD"

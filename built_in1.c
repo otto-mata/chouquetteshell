@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/03/13 15:22:46 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/14 13:05:54 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ft_pwd(char **env)
 	}
 	write(1, current_path, strlen(current_path));
 	write(1, "\n", 1);
+	free(current_path);
 	return (1);
 }
 
@@ -33,16 +34,18 @@ int	ft_cd(char **cmd, char **env)
 	const int	size_tab = ft_tablen(cmd);
 
 	if (size_tab == 1)
+	{
 		path = ft_strdup(get_home(env));
+		return (write(1, "HOME not set\n", 13), free(path), 0);
+	}
 	else if (size_tab > 2)
 		return (perror("too many arguments"), 0);
 	else
 		path = ft_strdup(cmd[1]);
-	change_old_pwd(env);
 	if (chdir(path) == -1)
 		return (perror(path), 0);
-	change_pwd(env);
-	free(path);
+	change_old_pwd(env);
+	change_pwd(env, path);
 	return (1);
 }
 
@@ -51,13 +54,13 @@ int	ft_echo(t_cmd cmd)
 	int	i;
 	int	newline;
 
-	newline = 0;
+	newline = 1;
 	i = 1;
 	if (!cmd.cmd)
 		return (0);
 	i = check_flags(cmd);
 	if (i != 1)
-		newline = 1;
+		newline = 0;
 	while (cmd.cmd[i])
 	{
 		write(1, cmd.cmd[i], strlen(cmd.cmd[i]));
@@ -71,10 +74,10 @@ int	ft_echo(t_cmd cmd)
 	return (1);
 }
 
-static int	choice_of_builtin(t_cmd cmd, char **env)
+static long	choice_of_builtin(t_cmd cmd, char **env)
 {
 	if (ft_strncmp(cmd.cmd[0], "exit", 5) == 0)
-		return (-1);
+		return (0);
 	else if (ft_strncmp(cmd.cmd[0], "cd", 3) == 0 || ft_strncmp(cmd.cmd[0],
 			"cd", 3) == 32)
 		ft_cd(cmd.cmd, env);
@@ -85,7 +88,7 @@ static int	choice_of_builtin(t_cmd cmd, char **env)
 	return (1);
 }
 
-void	here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **env)
+int	here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **env)
 {
 	char	*line;
 	int		result;
@@ -96,12 +99,16 @@ void	here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **env)
 	{
 		line = readline("\e[32mMinishell : \e[0m");
 		if (!line)
-			return ;
-		cmd.cmd = ft_split(line, ' ');
-		if (!cmd.cmd)
-			return ;
-		free(line);
-		result = choice_of_builtin(cmd, env);
-		free_tab(cmd.cmd);
+			return (0);
+		if (line[0] != 0)
+		{
+			cmd.cmd = ft_split(line, ' ');
+			if (!cmd.cmd)
+				return (0);
+			free(line);
+			result = choice_of_builtin(cmd, env);
+			free_tab(cmd.cmd);
+		}
 	}
+	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/02/03 14:57:31 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/12 17:48:31 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/14 12:27:39 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ char	*ft_strdup(const char *s)
 	int		i;
 
 	i = 0;
+	if (!s)
+		return (NULL);
 	size = ft_strlen(s);
 	dup = malloc(sizeof (char) * size + 1);
 	if (!dup)
