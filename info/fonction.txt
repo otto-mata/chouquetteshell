@@ -21,9 +21,6 @@ git
 builtins:
 
  - exit:
-   - retourner le bon code pour 'exit <N>'
    - exit <n> <...> ne doit pas quitter mais dire "too many arguments"
    - exit <str> <str> doit quitter, indiquer "<str>: numeric argument only" et renvoyer 2
    - exit <str> <...> <n> doit quitter, indiquer "<str>: numeric argument only" et renvoyer 2
-   - Attention a long min et long max qui sont les limites
-   - exit quitte le shell en cours: donc, dans un pipe, il quitte le sub shell

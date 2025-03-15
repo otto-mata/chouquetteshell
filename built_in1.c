@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/03/14 13:33:03 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/15 17:58:05 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ft_cd(char **cmd, char **env)
 	if (size_tab == 1)
 	{
 		path = ft_strdup(get_home(env));
-		if(!path)
+		if (!path)
 			return (write(1, "HOME not set\n", 13), free(path), 0);
 	}
 	else if (size_tab > 2)
@@ -77,8 +77,8 @@ int	ft_echo(t_cmd cmd)
 
 static void	choice_of_builtin(t_cmd cmd, char **env)
 {
-	if (ft_strncmp(cmd.cmd[0], "cd", 3) == 0 || ft_strncmp(cmd.cmd[0],
-			"cd", 3) == 32)
+	if (ft_strncmp(cmd.cmd[0], "cd", 3) == 0 || ft_strncmp(cmd.cmd[0], "cd",
+			3) == 32)
 		ft_cd(cmd.cmd, env);
 	else if (ft_strncmp(cmd.cmd[0], "pwd", 4) == 0)
 		ft_pwd(env);
