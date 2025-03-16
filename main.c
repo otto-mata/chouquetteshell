@@ -6,13 +6,13 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/14 13:12:08 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/16 15:18:45 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
 
-static int	dup_env(char ***env, char **envp)
+int	dup_env(char ***env, char **envp)
 {
 	int			i;
 	const int	size = ft_tablen(envp) + 1;
@@ -41,7 +41,7 @@ int	create_env(char ***env)
 	(*env)[0] = ft_strjoin(ft_strdup("PWD="), getcwd(NULL, 0));
 	if (!(*env)[0])
 		return (-1);
-	(*env)[1] = ft_strdup("OLDPWD=");
+	(*env)[1] = ft_strjoin(ft_strdup("OLDPWD="), getcwd(NULL, 0));
 	if (!(*env)[1])
 		return (free((*env)[0]), free(*env), -1);
 	(*env)[3] = 0;

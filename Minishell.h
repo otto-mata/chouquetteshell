@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/15 16:39:50 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/16 15:18:58 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,9 @@ int					here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **envp);
 
 // built_in2.c
 void				ft_exit(char **cmd);
+void				ft_env(char **env);
+void				ft_unset(char **cmd, char **env);
+int					is_in_tab(char *str, char **cmd);
 ///////////////////////////////////////////////////////////////////////////////
 
 // mini_libft.c
@@ -76,14 +79,6 @@ char				*ft_strdup(const char *s);
 char				*ft_strjoin(char const *s1, char const *s2);
 ///////////////////////////////////////////////////////////////////////////////
 
-// get_next_line
-char				*get_lines(char *buffer, char *init_line);
-void				next_line(char *buffer);
-char				*get_next_line(int fd);
-void				*ft_calloc(size_t nmemb, size_t size);
-void				*ft_bzero(void *s, size_t n);
-///////////////////////////////////////////////////////////////////////////////
-
 // ft_split.c
 char				**ft_split(char const *s, char c);
 char				**ft_split1(char const *s, char c);
@@ -91,6 +86,7 @@ char				**ft_split1(char const *s, char c);
 
 // main.c
 int					main(int argc, char **argv, char **envp);
+int					dup_env(char ***env, char **envp);
 ///////////////////////////////////////////////////////////////////////////////
 
 // tablen.c
@@ -109,8 +105,9 @@ int					check_flags(t_cmd cmd);
 char				*ft_getenv(char *value_name, char **env);
 ///////////////////////////////////////////////////////////////////////////////
 
-// built_in_utils1.c
+// built_in_utils2.c
 char				*create_new_path(char **env, char *path);
+long				ft_atol(const char *str, long *result);
 ///////////////////////////////////////////////////////////////////////////////
 
 #endif

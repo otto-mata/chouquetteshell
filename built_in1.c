@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/03/15 17:58:05 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/16 14:26:21 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,16 @@ int	ft_echo(t_cmd cmd)
 
 static void	choice_of_builtin(t_cmd cmd, char **env)
 {
-	if (ft_strncmp(cmd.cmd[0], "cd", 3) == 0 || ft_strncmp(cmd.cmd[0], "cd",
-			3) == 32)
+	if (ft_strncmp(cmd.cmd[0], "cd", 3) == 0)
 		ft_cd(cmd.cmd, env);
 	else if (ft_strncmp(cmd.cmd[0], "pwd", 4) == 0)
 		ft_pwd(env);
 	else if (ft_strncmp(cmd.cmd[0], "echo", 5) == 0)
 		ft_echo(cmd);
+	else if (ft_strncmp(cmd.cmd[0], "env", 4) == 0)
+		ft_env(env);
+	else if (ft_strncmp(cmd.cmd[0], "unset", 6) == 0)
+		ft_unset(cmd.cmd, env);
 }
 
 int	here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **env)

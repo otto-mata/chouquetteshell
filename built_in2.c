@@ -6,58 +6,11 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/14 12:50:10 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/15 17:57:57 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/16 17:18:02 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "Minishell.h"
-
-long	convert_string_to_long(const char *str, long *result, int sign)
-{
-	long	check_overflow;
-
-	check_overflow = 0;
-	*result = 0;
-	while (*str >= '0' && *str <= '9')
-	{
-		*result = *result * 10 + (*str - '0');
-		if (*result < check_overflow)
-			return (-1);
-		check_overflow = *result;
-		str++;
-	}
-	*result *= sign;
-	return (1);
-}
-
-long	ft_atol(const char *str, long *result)
-{
-	int	sign;
-
-	sign = 1;
-	*result = 0;
-	if (!str)
-		return (1);
-	while (*str == ' ' || (*str >= 9 && *str <= 13))
-		str++;
-	if (*str == '-')
-	{
-		sign = -1;
-		str++;
-	}
-	else if (*str == '+')
-		str++;
-	if (convert_string_to_long(str, result, sign) == -1)
-		return (-1);
-	while (*str >= '0' && *str <= '9')
-		str++;
-	if (*str != '\0')
-	{
-		*result = 2;
-		return (-1);
-	}
-	return (1);
-}
 
 void	ft_exit(char **cmd)
 {
@@ -82,4 +35,52 @@ void	ft_exit(char **cmd)
 		write(1, "only numeric argument\n", 22);
 		exit(test);
 	}
+}
+
+void	ft_env(char **env)
+{
+	int i;
+
+	i = 0;
+	if(!env)
+		return ;
+	while(env[i] != 0)
+	{
+		write(1, env[i], ft_strlen(env[i]));
+		write(1, "\n", 1);
+		i++;
+	}
+}
+
+void	ft_unset(char **cmd, char **env)
+{
+	int			i;
+	int			j;
+	char 		**new_env;
+	const int	size = ft_tablen(env) + 1;
+
+	i = 0;
+	j = 0;
+	new_env = malloc(sizeof(char *) * size);
+	if (!new_env)
+		return ;
+	while (env[i])
+	{
+		if(is_in_tab(env[i], cmd) == 0)
+		{
+			new_env[j] = ft_strdup(env[i]);
+			if (!new_env[j])
+			{
+				free_tab(new_env);
+				return ;
+			}
+			j++;
+		}
+		i++;
+	}
+	new_env[i] = NULL;
+	free_tab(env);
+	dup_env(&env, new_env);
+	free_tab(new_env);
+	return ;
 }
