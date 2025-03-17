@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/06 11:12:07 by seb               #+#    #+#             */
-/*   Updated: 2025/03/16 14:26:21 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:26:11 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,12 +89,11 @@ static void	choice_of_builtin(t_cmd cmd, char **env)
 		ft_unset(cmd.cmd, env);
 }
 
-int	here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **env)
+int	here_doc_line(t_cmd cmd, char **env)
 {
 	char	*line;
 	int		result;
 
-	(void)pipe_fd;
 	result = 1;
 	while (result == 1)
 	{
@@ -108,7 +107,7 @@ int	here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **env)
 				return (0);
 			free(line);
 			if (ft_strncmp(cmd.cmd[0], "exit", 5) == 0)
-				ft_exit(cmd.cmd);
+				ft_exit(cmd.cmd, env);
 			else
 				choice_of_builtin(cmd, env);
 			free_tab(cmd.cmd);

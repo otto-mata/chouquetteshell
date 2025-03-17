@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 12:37:51 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/16 15:18:45 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/17 15:26:48 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ int	create_env(char ***env)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_pipe	pipe_fd;
 	t_cmd	cmd;
 	char	**env;
 	long	result;
@@ -62,15 +61,8 @@ int	main(int argc, char **argv, char **envp)
 		create_env(&env);
 	else if (dup_env(&env, envp) == -1)
 		return (0);
-	if (pipe(pipe_fd.old) == -1)
-	{
-		free_tab(env);
-		return (0);
-	}
 	write(1, "\033[H\033[J", 6);
-	result = here_doc_line(cmd, pipe_fd, env);
+	result = here_doc_line(cmd, env);
 	free_tab(env);
-	close(pipe_fd.old[0]);
-	close(pipe_fd.old[1]);
 	return (result);
 }

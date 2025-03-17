@@ -6,7 +6,7 @@
 /*   By: sle-nogu <sle-nogu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 15:03:48 by sle-nogu          #+#    #+#             */
-/*   Updated: 2025/03/16 15:18:58 by sle-nogu         ###   ########.fr       */
+/*   Updated: 2025/03/17 16:00:56 by sle-nogu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,11 +61,11 @@ typedef struct s_pipe
 int					ft_pwd(char **env);
 int					ft_cd(char **path, char **envp);
 int					ft_echo(t_cmd cmd);
-int					here_doc_line(t_cmd cmd, t_pipe pipe_fd, char **envp);
+int					here_doc_line(t_cmd cmd, char **envp);
 ///////////////////////////////////////////////////////////////////////////////
 
 // built_in2.c
-void				ft_exit(char **cmd);
+void				ft_exit(char **cmd, char **env);
 void				ft_env(char **env);
 void				ft_unset(char **cmd, char **env);
 int					is_in_tab(char *str, char **cmd);
